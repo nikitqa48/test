@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions, response, status
 from .serializers import DepartmentSerializer, DepartmentPersonalSerializer
-from django.db.models import Sum, Count, Q
+from django.db.models import Sum, Count
 from . import models
 
 
@@ -11,10 +11,10 @@ class DeportmentViewset(ModelViewSet):
     queryset = models.Department.objects.all()
 
     def list(self, request, *args, **kwargs):
-        response = super().list(request, *args, **kwargs)
+        res = super().list(request, *args, **kwargs)
         data = models.Department.objects.aggregate(salary_sum=Sum('personal__salary'), count_personal=Count('personal'))
-        response.data.append(data)
-        return response
+        res.data.append(data)
+        return res
 
 
 class DepartmentPersonalView(ModelViewSet):
@@ -24,12 +24,15 @@ class DepartmentPersonalView(ModelViewSet):
 
     def destroy(self, request, pk, *args, **kwargs):
         serializer = DepartmentPersonalSerializer(data=request.data)
-        serializer.is_valid()
-        if serializer.errors:
-            return response.Response(status=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
-        for member in serializer.validated_data['personal']:
-            member.department = None
-            member.save()
-        return response.Response(status=status.HTTP_204_NO_CONTENT)
+
+        def remove_department(user):
+            user.department = None
+            user.save()
+        if serializer.is_valid():
+            personal = serializer.validated_data['personal']
+            map(remove_department, personal)
+            return response.Response(status=status.HTTP_204_NO_CONTENT)
+        return response.Response(status=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+
 
 
