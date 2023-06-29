@@ -11,6 +11,6 @@ class PersonalViewSet(ModelViewSet):
     queryset = models.CustomUser.objects.all()
     pagination_class = StandardResultsSetPagination
     filterset_fields = ['department', 'last_name']
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
