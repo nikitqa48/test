@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from djoser.serializers import UserCreateSerializer, UserDeleteSerializer
+from djoser.serializers import UserCreateSerializer
 from .models import CustomUser
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    # logo = serializers.ImageField(read_only=True)
+    avatar = serializers.ImageField(read_only=True)
 
     class Meta:
         model = CustomUser
