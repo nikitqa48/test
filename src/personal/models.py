@@ -56,6 +56,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         unique_together = ('id', 'department')
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
         indexes = [
             models.Index(fields=['last_name', 'first_name']),
         ]
