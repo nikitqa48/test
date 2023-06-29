@@ -16,7 +16,7 @@
 ### Создать суперпользователя
 В корне директории
    ```sh
-   docker-compose run web python backend/manage.py createsuperuser
+   docker-compose run web python manage.py createsuperuser
    ```
 
 ### Эндпоинты
