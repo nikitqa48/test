@@ -56,6 +56,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         unique_together = ('id', 'department')
+        indexes = [
+            models.Index(fields=['last_name', 'first_name']),
+        ]
 
     def set_password(self, raw_password):
         self.password = make_password(raw_password)
