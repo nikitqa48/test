@@ -6,6 +6,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/department/', include('src.department.urls')),
     path('api/v1/personal/', include('src.personal.urls')),
+    path('api/v1/project/', include('src.project.urls')),
     path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth/', include('djoser.urls.jwt')),
 ]

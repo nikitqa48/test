@@ -25,6 +25,7 @@ INSTALLED_APPS = [
 
     'src.personal',
     'src.department',
+    'src.project'
 ]
 
 
